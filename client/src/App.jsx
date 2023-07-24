@@ -5,9 +5,25 @@ import { useState } from "react";
 
 function App() {
   const [queryDescription, setQueryDescription] = useState("");
-  const onSubmit = (e) => {
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("form submitted: ", queryDescription);
+
+    const sqlQuery = await generateQuery();
+    console.log("returned from server: ", sqlQuery);
+  };
+
+  const generateQuery = async () => {
+    const response = await fetch("http://localhost:3005/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ queryDescription: queryDescription }),
+    });
+
+    const data = await response.json();
+    return data.response.trim();
   };
 
   return (
