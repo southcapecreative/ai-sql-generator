@@ -5,12 +5,13 @@ import { useState } from "react";
 
 function App() {
   const [queryDescription, setQueryDescription] = useState("");
+  const [sqlQuery, setSqlQuery] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const sqlQuery = await generateQuery();
-    console.log("returned from server: ", sqlQuery);
+    const generatedQuery = await generateQuery();
+    setSqlQuery(generatedQuery);
   };
 
   const generateQuery = async () => {
@@ -39,6 +40,7 @@ function App() {
           onChange={(e) => setQueryDescription(e.target.value)}
         />
         <input type="submit" value="Generate query" />
+        <pre>{sqlQuery}</pre>
       </form>
     </main>
   );
